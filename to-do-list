@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>To Do List</title>
+<style>
+h1 {
+    width: 50%;
+    background-color: skyblue;
+}
+
+.main-box {
+    width: 50%;
+    height: 80%;
+    background-color: yellow;
+}
+
+.task-list-form {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+.task {
+    background-color: seashell;
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 10px;
+    width: 50%;
+}
+</style>
+</head>
+<body>
+<div id="main-box">
+    <center><h1>To Do List</h1></center>
+    <center><button id="add-task">Add task</button></center>
+</div>
+
+<center>
+<form class="task-list-form hidden" id="task-list">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br><br>
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+    <br><br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea>
+    <br><br>
+    <button type="button" id="store-task">Add</button>
+</form>
+<div id="tasks-container">
+
+</div>
+</center>
+
+<script>
+const addTaskButton = document.getElementById("add-task");
+const taskListForm = document.getElementById("task-list");
+const tasksContainer = document.getElementById("tasks-container");
+const storeTask = document.getElementById("store-task");
+const taskName = document.getElementById("name");
+const taskDate = document.getElementById("date");
+const taskDescription = document.getElementById("description");
+const idStore = []
+
+addTaskButton.addEventListener("click", () => {
+    taskListForm.classList.toggle("hidden");
+    addTaskButton.classList.add("hidden");
+});
+
+storeTask.addEventListener("click", () => {
+    const idCreate = `${taskName.value}-${taskDate.value}-${taskDescription.value}`; // Corrected typo
+    const anotherDiv = document.createElement("div");
+    anotherDiv.classList.add("task");
+    anotherDiv.innerHTML = `
+        <input type="checkbox">Done</input>
+        <p>Name: ${taskName.value}</p>
+        <p>Date: ${taskDate.value}</p>
+        <p>Description: ${taskDescription.value}</p>
+        <button type="button" onclick="editTask('${taskName.value}', '${taskDate.value}', '${taskDescription.value}', this.parentElement)">Edit</button>
+        <button type="button" onclick="deleteTask(this.parentElement)">Delete</button>
+    `;
+    tasksContainer.appendChild(anotherDiv);
+    taskName.value = "";
+    taskDate.value = "";
+    taskDescription.value = "";
+    taskListForm.classList.add("hidden");
+    addTaskButton.classList.remove("hidden"); // Ensure button reappears
+    idStore.push(idCreate);
+});
+
+const deleteTask = (anDi) => {
+    tasksContainer.removeChild(anDi);
+}
+
+const editTask = (tn, td, tdd, tp) => {
+    taskName.value = tn;
+    taskDate.value = td;
+    taskDescription.value = tdd;
+    taskListForm.classList.remove("hidden");
+    tasksContainer.removeChild(tp);
+    addTaskButton.classList.add("hidden"); // Hide the Add task button again
+}
+</script>
+
+</body>
+</html>
