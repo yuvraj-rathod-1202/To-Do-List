@@ -98,7 +98,7 @@ const editTask = (tn, td, tdd, tp) => {
     taskName.value = tn;
     taskDate.value = td;
     taskDescription.value = tdd;
-    taskListForm.classList.remove("hidden");
+    taskListForm.classList.remove("hidden");// remove another form
     tasksContainer.removeChild(tp);
     addTaskButton.classList.add("hidden"); // Hide the Add task button again
 }
